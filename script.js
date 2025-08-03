@@ -53,7 +53,7 @@ function setTime() {
 function getGreeting(hour) {
   if (hour >= 22 || hour < 5) return 'GOOD NIGHT';
   if (hour >= 5 && hour < 12) return 'GOOD MORNING';
-  if (hour >= 12 && hour < 18) return 'GOO AFTERNOON';
+  if (hour >= 12 && hour < 18) return 'GOOD AFTERNOON';
   return 'GOOD EVENING';
 }
 
@@ -61,9 +61,9 @@ const scale = (num, in_min, in_max, out_min, out_max) => {
   return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-// Random quote on load
 const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
 quoteText.textContent = randomQuote;
 
 setInterval(setTime, 1000);
+
 setTime();
