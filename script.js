@@ -32,6 +32,12 @@ function setTime() {
   const clockHrs = hours % 12 || 12;
   const am_pm = hours >= 12 ? 'PM' : 'AM';
 
+  if (seconds === 0) {
+    secondHand.style.transition = 'none';
+  } else { 
+    secondHand.style.transition = 'transform 0.05s linear'; 
+  }
+
   const autoTheme = hours >= 18 || hours < 6;
   document.documentElement.classList.toggle('dark', autoTheme);
 
