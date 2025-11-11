@@ -32,18 +32,12 @@ function setTime() {
   const clockHrs = hours % 12 || 12;
   const am_pm = hours >= 12 ? 'PM' : 'AM';
 
-  if (seconds === 0) {
-    secondHand.style.transition = 'none';
-  } else {
-    secondHand.style.transition = 'transform 0.05s linear';
-  }
-
   const autoTheme = hours >= 18 || hours < 6;
   document.documentElement.classList.toggle('dark', autoTheme);
 
-  hourHand.style.transform = `translate(-50%, -100%) rotate(${scale(clockHrs, 0, 11, 0, 360)}deg)`;
-  minuteHand.style.transform = `translate(-50%, -100%) rotate(${scale(minutes, 0, 59, 0, 360)}deg)`;
-  secondHand.style.transform = `translate(-50%, -100%) rotate(${scale(seconds, 0, 59, 0, 360)}deg)`;
+  hourHand.style.transform = `translate(-50%, -100%) rotate(${scale(clockHrs, 0, 12, 0, 360)}deg)`;
+  minuteHand.style.transform = `translate(-50%, -100%) rotate(${scale(minutes, 0, 60, 0, 360)}deg)`;
+  secondHand.style.transform = `translate(-50%, -100%) rotate(${scale(seconds, 0, 60, 0, 360)}deg)`;
 
   timeEl.innerHTML = `${clockHrs}:${minutes < 10 ? `0${minutes}` : minutes} ${am_pm}`;
   dateEl.innerHTML = `<span class="circle">${date}</span> ${days[day]}, ${months[month]}`;
@@ -67,3 +61,4 @@ quoteText.textContent = randomQuote;
 setInterval(setTime, 1000);
 
 setTime();
+
