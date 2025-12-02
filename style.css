@@ -5,6 +5,7 @@
 :root {
   --primary-color: #000;
   --secondary-color: #fff;
+  --accent-color: #e44836;
 }
 
 html {
@@ -14,9 +15,6 @@ html {
 html.dark {
   --primary-color: #fff;
   --secondary-color: #333;
-}
-
-html.dark {
   color: var(--primary-color);
   background-color: #111;
 }
@@ -74,12 +72,12 @@ body {
   left: 50%;
   background-color: var(--primary-color);
   transform-origin: bottom center;
-  transition: transform 0.05s linear;
+  transition: transform 0.2s ease-in-out;
 }
 
 .needle.hour {
   width: 5px;
-  height: 60px;
+  height: 65px;
   transform: translate(-50%, -100%) rotate(0deg);
 }
 
@@ -90,7 +88,7 @@ body {
 }
 
 .needle.second {
-  background-color: #e44836;
+  background-color: var(--accent-color);
   height: 100px;
   width: 2px;
   transform: translate(-50%, -100%) rotate(0deg);
@@ -98,7 +96,7 @@ body {
 
 .center-point {
   position: absolute;
-  background-color: #e44836;
+  background-color: var(--accent-color);
   width: 10px;
   height: 10px;
   top: 50%;
@@ -120,20 +118,20 @@ body {
 }
 
 .greeting {
-  font-size: 18px;
-  margin-bottom: 8px;
+  font-size: 1.125rem;
+  margin-bottom: 0.5rem;
 }
 
 .time {
-  font-size: 50px;
+  font-size: 3rem;
 }
 
 .date {
-  color: #666;
-  font-size: 14px;
+  color: var(--primary-color);
+  font-size: 0.875rem;
   text-transform: uppercase;
   letter-spacing: 0.3px;
-  margin-bottom: 25px;
+  margin-bottom: 1.5rem;
 }
 
 .date .circle {
@@ -147,5 +145,5 @@ body {
   border-radius: 50%;
   height: 18px;
   width: 18px;
-  transition: all 0.5 ease-in;
+  transition: all 0.5s ease-in;
 }
