@@ -1,13 +1,15 @@
-const hourHand = document.querySelector('.hour');
-const minuteHand = document.querySelector('.minute');
-const secondHand = document.querySelector('.second');
-const timeEl = document.querySelector('.time');
-const dateEl = document.querySelector('.date');
-const greetingText = document.getElementById("greetingText");
-const quoteText = document.getElementById("quoteText");
+const elements = {
+  hourHand: document.querySelector('.hour'),
+  minuteHand: document.querySelector('.minute'),
+  secondHand: document.querySelector('.second'),
+  timeEl: document.querySelector('.time'),
+  dateEl: document.querySelector('.date'),
+  greetingText: document.getElementById('greetingText'),
+  quoteText: document.getElementById('quoteText')
+};
 
-const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const days = ['Sun', 'Mon', 'Tues', 'Wed', 'Thu', 'Fri', 'Sat'];
+const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const quotes = [
   `"Code is like humor. When you have to explain it, it's bad." - Cory House`,
   `"First, solve the problem. Then, write the code." - John Johnson`,
@@ -21,6 +23,20 @@ const quotes = [
   `"Good code is its own best documentation." - Steve McConnell`
 ];
 
+const scale = (num, inMin, inMax, outMin, outMax) =>
+  ((num - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin;
+
+function getGreeting(hour) {
+  if (hour >= 22 || hour < 5) return 'GOOD NIGHT';
+  if (hour >= 5 && hour < 12) return 'GOOD MORNING';
+  if (hour >= 12 && hour < 18) return 'GOOD AFTERNOON';
+  return 'GOOD EVENING';
+}
+
+function setRandomQuote() {
+  elements.quoteText.textContent = quotes[Math.floor(Math.random() * quotes.length)];
+}
+
 function setTime() {
   const time = new Date();
   const day = time.getDay();
@@ -32,41 +48,28 @@ function setTime() {
   const clockHrs = hours % 12 || 12;
   const am_pm = hours >= 12 ? 'PM' : 'AM';
 
-  const autoTheme = hours >= 18 || hours < 6;
-  document.documentElement.classList.toggle('dark', autoTheme);
+  // Auto dark theme
+  document.documentElement.classList.toggle('dark', hours >= 18 || hours < 6);
 
-    if (seconds === 0) {
-    secondHand.style.transition = 'none';
-  } else { 
-    secondHand.style.transition = 'transform 0.05s linear'; 
-  }
+  elements.secondHand.style.transition = seconds === 0
+    ? 'none'
+    : 'transform 0.2s ease-in-out';
 
-  hourHand.style.transform = `translate(-50%, -100%) rotate(${scale(clockHrs, 0, 11, 0, 360)}deg)`;
-  minuteHand.style.transform = `translate(-50%, -100%) rotate(${scale(minutes, 0, 59, 0, 360)}deg)`;
-  secondHand.style.transform = `translate(-50%, -100%) rotate(${scale(seconds, 0, 59, 0, 360)}deg)`;
+  // Rotate hands
+  elements.hourHand.style.transform = `translate(-50%, -100%) rotate(${scale(clockHrs, 0, 11, 0, 360)}deg)`;
+  elements.minuteHand.style.transform = `translate(-50%, -100%) rotate(${scale(minutes, 0, 59, 0, 360)}deg)`;
+  elements.secondHand.style.transform = `translate(-50%, -100%) rotate(${scale(seconds, 0, 59, 0, 360)}deg)`;
 
-  timeEl.innerHTML = `${clockHrs}:${minutes < 10 ? `0${minutes}` : minutes} ${am_pm}`;
-  dateEl.innerHTML = `<span class="circle">${date}</span> ${days[day]}, ${months[month]}`;
-  greetingText.textContent = `${getGreeting(hours)}, it's currently:`;
+  // Update text
+  elements.timeEl.textContent = `${clockHrs}:${String(minutes).padStart(2, '0')} ${am_pm}`;
+  elements.dateEl.innerHTML = `<span class="circle">${date}</span> ${days[day]}, ${months[month]}`;
+  elements.greetingText.textContent = `${getGreeting(hours)}, it's currently:`;
 }
 
-function getGreeting(hour) {
-  if (hour >= 22 || hour < 5) return 'GOOD NIGHT';
-  if (hour >= 5 && hour < 12) return 'GOOD MORNING';
-  if (hour >= 12 && hour < 18) return 'GOOD AFTERNOON';
-  return 'GOOD EVENING';
+function updateClock() {
+  setTime();
+  requestAnimationFrame(updateClock);
 }
 
-const scale = (num, in_min, in_max, out_min, out_max) => {
-  return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-}
-
-const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-quoteText.textContent = randomQuote;
-
-setInterval(setTime, 1000);
-
-setTime();
-
-
-
+setRandomQuote();
+updateClock();
